@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="title desc">
+  <title id="title">PULSE — shared memory for teams and communities</title>
+  <desc id="desc">A dark developer-tool banner showing one Pulse agent connecting community, team, and supervisor rooms.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090d1a"/>
+      <stop offset="0.55" stop-color="#11152b"/>
+      <stop offset="1" stop-color="#20132f"/>
+    </linearGradient>
+    <linearGradient id="pulse" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#55e6c1"/>
+      <stop offset="1" stop-color="#8b7cff"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".045"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="320" rx="24" fill="url(#bg)"/>
+  <rect width="1280" height="320" rx="24" fill="url(#grid)"/>
+  <circle cx="1110" cy="38" r="180" fill="#7b6dff" opacity=".12"/>
+  <circle cx="180" cy="310" r="170" fill="#35d8bd" opacity=".08"/>
+
+  <g transform="translate(72 72)">
+    <text x="0" y="74" fill="#f8fbff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="72" font-weight="800" letter-spacing="7">PULSE</text>
+    <rect x="4" y="98" width="112" height="5" rx="2.5" fill="url(#pulse)"/>
+    <text x="0" y="142" fill="#c4c9dc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="500">One shared memory. Three team rooms.</text>
+    <text x="0" y="184" fill="#7f89a7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" letter-spacing=".4">COMMUNITY  ·  TEAM  ·  SUPERVISOR</text>
+  </g>
+
+  <g transform="translate(790 54)">
+    <path d="M116 108 C184 108 214 62 278 62" fill="none" stroke="#55e6c1" stroke-width="3" stroke-opacity=".8"/>
+    <path d="M116 108 C190 108 213 108 278 108" fill="none" stroke="#8b7cff" stroke-width="3" stroke-opacity=".85"/>
+    <path d="M116 108 C184 108 214 154 278 154" fill="none" stroke="#f5b86a" stroke-width="3" stroke-opacity=".8"/>
+    <circle cx="116" cy="108" r="23" fill="#111a2c" stroke="url(#pulse)" stroke-width="4" filter="url(#glow)"/>
+    <path d="M105 108h22M116 97v22" stroke="#f8fbff" stroke-width="3" stroke-linecap="round"/>
+    <g font-family="Inter,Segoe UI,Arial,sans-serif">
+      <g transform="translate(278 62)"><circle r="13" fill="#55e6c1"/><text x="25" y="6" fill="#e9fff9" font-size="19" font-weight="700">community</text><text x="25" y="27" fill="#7fbaad" font-size="13">public signals</text></g>
+      <g transform="translate(278 108)"><circle r="13" fill="#8b7cff"/><text x="25" y="6" fill="#f0edff" font-size="19" font-weight="700">team</text><text x="25" y="27" fill="#a39bdc" font-size="13">shared context</text></g>
+      <g transform="translate(278 154)"><circle r="13" fill="#f5b86a"/><text x="25" y="6" fill="#fff4df" font-size="19" font-weight="700">supervisor</text><text x="25" y="27" fill="#c9a77c" font-size="13">approval loop</text></g>
+      <text x="86" y="172" fill="#697594" font-size="12" letter-spacing="2">PULSE AGENT</text>
+    </g>
+  </g>
+
+  <rect x="1" y="1" width="1278" height="318" rx="23" fill="none" stroke="#ffffff" stroke-opacity=".1"/>
+</svg>
