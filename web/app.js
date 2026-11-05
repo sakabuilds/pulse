@@ -1,5 +1,5 @@
 const defaults = {
-  supervisor: { name: "Supervisor", description: "Your command center. Sees every signal and drafts replies for your approval.", platforms: ["telegram", "mattermost"] },
+  supervisor: { name: "Supervisor", description: "Your private command center. Sees every signal and drafts replies for your approval.", platforms: ["telegram", "mattermost"], privateOnly: true },
   community: { name: "Community", description: "Listens to public conversations and captures the signals your community is sending.", platforms: ["discord", "mattermost"] },
   team: { name: "Team", description: "Connects public feedback to internal context without exposing private supervisor signals.", platforms: ["slack", "mattermost"] },
 };

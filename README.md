@@ -68,6 +68,11 @@ audience setting per identity. Switch room messages trigger agent turns; the
 GitHub watcher and scheduled digest will use the supervisor room as explicit
 nudges.
 
+Supervisor is private-only. On Telegram, Pulse presents a one-person group
+(`user + Pulse bot`) as a private supervisor chat because Switch cannot attach
+an agent to a direct bot DM. Community and Team are the only identities allowed
+in shared channels.
+
 Validate the routing plan with:
 
 ```bash

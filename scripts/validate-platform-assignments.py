@@ -47,15 +47,23 @@ def main() -> int:
         raise SystemExit(f"unsupported platforms: {sorted(unknown_platforms)}")
     if missing_connections:
         raise SystemExit(f"missing Switch connections: {sorted(missing_connections)}")
+    invalid_room_types = {
+        mode for mode, config in agents.items()
+        if config.get("room_type") not in {"private", "shared"}
+    }
+    if invalid_room_types:
+        raise SystemExit(f"invalid room_type for: {sorted(invalid_room_types)}")
+    if "supervisor" in agents and agents["supervisor"].get("room_type") != "private":
+        raise SystemExit("supervisor must use room_type: private")
 
     assignments = [
-        (mode, platform, connections[platform])
+        (mode, config.get("room_type"), platform, connections[platform])
         for mode, config in agents.items()
         for platform in config.get("platforms", [])
     ]
     print("PULSE platform assignment plan")
-    for mode, platform, connection in assignments:
-        print(f"- pulse-{mode} -> {platform} ({connection})")
+    for mode, room_type, platform, connection in assignments:
+        print(f"- pulse-{mode} -> {platform} [{room_type}] ({connection})")
     print(f"{len(assignments)} room assignments; {len(agents)} Pulse identities")
     return 0
 

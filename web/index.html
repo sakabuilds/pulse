@@ -61,18 +61,18 @@
       <section class="workspace shell" id="setup">
         <div class="section-heading">
           <div><div class="eyebrow">Workspace setup</div><h2>Put every agent<br /><em>where you need them.</em></h2></div>
-          <p>One Pulse identity can live on many platforms. Toggle the rooms your team uses—the memory boundary stays the same.</p>
+          <p>One Pulse identity can live on many platforms. Supervisor stays private; Community and Team meet people in shared rooms.</p>
         </div>
         <div class="workspace-grid" id="connections">
           <aside class="sidebar-panel">
             <div class="panel-label">Your agents</div>
-            <button class="agent-tab active" data-agent="supervisor"><span class="agent-avatar avatar-gold">S</span><span><strong>Supervisor</strong><small>Private / all signals</small></span><b>→</b></button>
+            <button class="agent-tab active" data-agent="supervisor"><span class="agent-avatar avatar-gold">S</span><span><strong>Supervisor</strong><small>Private control chat</small></span><b>→</b></button>
             <button class="agent-tab" data-agent="community"><span class="agent-avatar avatar-purple">C</span><span><strong>Community</strong><small>Public signals only</small></span><b>→</b></button>
             <button class="agent-tab" data-agent="team"><span class="agent-avatar avatar-blue">T</span><span><strong>Team</strong><small>Public + internal</small></span><b>→</b></button>
             <div class="sidebar-note"><span class="lock">⌁</span><span>Visibility is enforced in memory, not just in prompts.</span></div>
           </aside>
           <section class="assignment-panel">
-            <div class="assignment-top"><div><span class="selected-kicker">Selected agent</span><h3 id="selected-agent">Supervisor</h3></div><span class="status-chip"><i></i> Running</span></div>
+            <div class="assignment-top"><div><span class="selected-kicker">Selected agent</span><h3 id="selected-agent">Supervisor</h3></div><span class="status-chip private-chip"><i></i> Private only</span></div>
             <p class="assignment-description" id="agent-description">Your command center. Sees every signal and drafts replies for your approval.</p>
             <div class="platform-list" id="platform-list"></div>
             <div class="assignment-footer"><span><b id="connection-count">2</b> platforms assigned</span><button class="button button-primary button-small" id="save-button">Save assignments <span>→</span></button></div>

@@ -4,10 +4,13 @@ version: 1
 # messaging-app connections. A user may put every identity on every platform.
 agents:
   community:
+    room_type: shared
     platforms: [mattermost, discord]
   team:
+    room_type: shared
     platforms: [mattermost, slack]
   supervisor:
+    room_type: private
     platforms: [telegram, mattermost]
 
 # Switch connection names are supplied by the user in Switch Console. Keep
