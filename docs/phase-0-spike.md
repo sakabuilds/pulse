@@ -8,9 +8,9 @@ Date: 2026-11-05
    user after the local Console setup.
 2. Same template in two rooms: **pending**.
 3. Telegram or Discord bridge: **pending**; Mattermost is the first bridge.
-4. Agent calls a trivial MCP tool with per-instance configuration: **pass for
-   configuration**; the three Codex provider homes report `pulse-memory`
-   enabled, with the live call smoke test still to be run from each room.
+4. Agent calls a trivial MCP tool with per-instance configuration: **pass**;
+   all three launchers expose 8 memory tools and `brief` returns the expected
+   public, internal, or private audience.
 5. Script posts into a room: **pending**.
 6. Agent/script posts into a different room: **pending**.
 
