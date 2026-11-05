@@ -1,0 +1,21 @@
+version: 1
+
+# Many-to-many routing. The keys are Pulse identities; values are Switch
+# messaging-app connections. A user may put every identity on every platform.
+agents:
+  community:
+    platforms: [mattermost, discord]
+  team:
+    platforms: [mattermost, slack]
+  supervisor:
+    platforms: [telegram, mattermost]
+
+# Switch connection names are supplied by the user in Switch Console. Keep
+# secrets out of this file; Telegram tokens, Slack credentials, etc. belong in
+# Switch's encrypted messaging-app connection store.
+connections:
+  mattermost: mattermost-local
+  telegram: telegram-supervisor
+  slack: slack-team
+  discord: discord-community
+

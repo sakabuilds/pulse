@@ -48,7 +48,7 @@ agent:
 
 room:
   name: "{room_name}"
-  description: Pulse {mode} room
+  description: Pulse {mode} room on {bridge}
   bridge: "{bridge}"
   agents: [Pulse]
   users: ["{$creator}"]

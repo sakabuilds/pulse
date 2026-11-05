@@ -59,9 +59,26 @@ addressing, triggers, and chat bridges. PULSE uses three rooms:
 - `supervisor`: all signals; drafts public replies and waits for approval.
 
 The same `Pulse` template in `agents/pulse.template.yaml` is instantiated once
-per room. The memory server is a separate MCP process with an audience setting
-per instance. Switch room messages trigger agent turns; the GitHub watcher and
-scheduled digest will use the supervisor room as explicit nudges.
+per Pulse identity, then that identity can be invited into rooms on any number
+of connected messaging apps. The many-to-many routing is declared in
+`config/pulse.assignments.yaml`: it is valid for Supervisor to be on Telegram,
+Slack, and Mattermost at the same time, or for all three identities to share
+every connected app. The memory server is a separate MCP process with an
+audience setting per identity. Switch room messages trigger agent turns; the
+GitHub watcher and scheduled digest will use the supervisor room as explicit
+nudges.
+
+Validate the routing plan with:
+
+```bash
+.venv/bin/python scripts/validate-platform-assignments.py
+```
+
+Connecting a platform is still done in Switch Console. The manifest stores
+only connection names, never tokens. Once a connection exists, provisioning
+creates or adopts one room per identity/platform pair and invites the existing
+Pulse identity into it. This keeps Telegram, Slack, Discord, and Mattermost as
+different entry points into the same audience-scoped memory.
 
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
