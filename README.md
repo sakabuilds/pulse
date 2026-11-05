@@ -63,6 +63,13 @@ per room. The memory server is a separate MCP process with an audience setting
 per instance. Switch room messages trigger agent turns; the GitHub watcher and
 scheduled digest will use the supervisor room as explicit nudges.
 
+For the current Codex-backed local agents, Switch gives each session its own
+`CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
+agents; it registers the same launcher in each session config. The launcher
+maps the managed working directory to the audience and fails closed for any
+unknown directory. The SQLite server repeats the audience check on every read
+and write.
+
 ## Security and limits
 
 Visibility is enforced in SQLite queries and write validation, not only in
