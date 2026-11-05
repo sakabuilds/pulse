@@ -9,8 +9,9 @@ approved public reply.
 
 Phase 0 is verified locally: Switch Console, the local Switch server,
 Mattermost, and a Codex-backed agent are running; the agent has answered in
-its private Switch chat. Phase 1 is implemented and tested. Room creation,
-per-instance MCP attachment, cross-room posting, and the GitHub watcher are
+its private Switch chat. Phase 1 is implemented and tested. The three Pulse
+agents and rooms have now been provisioned in the live local Switch workspace.
+Per-instance MCP attachment, cross-room posting, and the GitHub watcher are
 next.
 
 ## Repository layout
@@ -41,6 +42,12 @@ PYTHONPATH=memory-mcp .venv/bin/pytest -q memory-mcp/test_server.py
 The seed is deterministic and creates 51 signals across community and team
 contexts. The three recurring topics are `login-mobile`, `export-slow`, and
 `pricing-confusing`.
+
+To run one memory instance manually during local integration testing:
+
+```bash
+PULSE_AUDIENCE=public ./scripts/run-memory.sh public
+```
 
 ## How Switch is used
 
