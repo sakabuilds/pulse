@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PULSE keeps your community, team, and supervisor signals moving." />
+    <title>PULSE — one signal, everywhere</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="topbar shell">
+      <a class="brand" href="#top" aria-label="Pulse home">
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        <span>PULSE</span>
+      </a>
+      <nav>
+        <a href="#how-it-works">How it works</a>
+        <a href="#connections">Connections</a>
+        <a href="#setup">Setup</a>
+      </nav>
+      <button class="button button-ghost" data-scroll="#setup">Open workspace <span>↗</span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero shell">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="live-dot"></span> Your startup’s signal layer</div>
+          <h1>Stay close to<br /><em>everything</em> that matters.</h1>
+          <p class="hero-text">PULSE gives your community, team, and supervisor one shared memory—then lets you meet them wherever work already happens.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" data-scroll="#setup">Build your signal map <span>→</span></button>
+            <a class="text-link" href="#how-it-works">See how it works <span>↓</span></a>
+          </div>
+          <div class="trust-line"><span class="avatar-stack"><b>J</b><b>M</b><b>A</b></span><span>Built for people running communities, teams, and everything in between.</span></div>
+        </div>
+        <div class="hero-visual">
+          <div class="orbit orbit-large"></div>
+          <div class="orbit orbit-small"></div>
+          <div class="pulse-core"><span class="core-ring"></span><strong>P</strong><small>always on</small></div>
+          <div class="signal-card card-community"><span class="platform-icon discord">⌁</span><div><strong>Community</strong><small>“Export is taking forever”</small></div><span class="card-time">now</span></div>
+          <div class="signal-card card-team"><span class="platform-icon slack">✣</span><div><strong>Team</strong><small>Issue linked to #export-slow</small></div><span class="card-time">2m</span></div>
+          <div class="signal-card card-supervisor"><span class="platform-icon telegram">➤</span><div><strong>Supervisor</strong><small>Brief ready for review</small></div><span class="card-time">4m</span></div>
+          <span class="spark spark-one">✦</span><span class="spark spark-two">✦</span>
+        </div>
+      </section>
+
+      <section class="strip shell" id="how-it-works">
+        <div><span class="strip-number">01</span><strong>Capture</strong><p>Signals arrive from every room.</p></div>
+        <span class="strip-arrow">→</span>
+        <div><span class="strip-number">02</span><strong>Connect</strong><p>Pulse finds the thread across audiences.</p></div>
+        <span class="strip-arrow">→</span>
+        <div><span class="strip-number">03</span><strong>Act</strong><p>You approve the move before it ships.</p></div>
+      </section>
+
+      <section class="workspace shell" id="setup">
+        <div class="section-heading">
+          <div><div class="eyebrow">Workspace setup</div><h2>Put every agent<br /><em>where you need them.</em></h2></div>
+          <p>One Pulse identity can live on many platforms. Toggle the rooms your team uses—the memory boundary stays the same.</p>
+        </div>
+        <div class="workspace-grid" id="connections">
+          <aside class="sidebar-panel">
+            <div class="panel-label">Your agents</div>
+            <button class="agent-tab active" data-agent="supervisor"><span class="agent-avatar avatar-gold">S</span><span><strong>Supervisor</strong><small>Private / all signals</small></span><b>→</b></button>
+            <button class="agent-tab" data-agent="community"><span class="agent-avatar avatar-purple">C</span><span><strong>Community</strong><small>Public signals only</small></span><b>→</b></button>
+            <button class="agent-tab" data-agent="team"><span class="agent-avatar avatar-blue">T</span><span><strong>Team</strong><small>Public + internal</small></span><b>→</b></button>
+            <div class="sidebar-note"><span class="lock">⌁</span><span>Visibility is enforced in memory, not just in prompts.</span></div>
+          </aside>
+          <section class="assignment-panel">
+            <div class="assignment-top"><div><span class="selected-kicker">Selected agent</span><h3 id="selected-agent">Supervisor</h3></div><span class="status-chip"><i></i> Running</span></div>
+            <p class="assignment-description" id="agent-description">Your command center. Sees every signal and drafts replies for your approval.</p>
+            <div class="platform-list" id="platform-list"></div>
+            <div class="assignment-footer"><span><b id="connection-count">2</b> platforms assigned</span><button class="button button-primary button-small" id="save-button">Save assignments <span>→</span></button></div>
+            <div class="save-message" id="save-message" role="status"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="closing shell">
+        <div class="closing-card"><div><div class="eyebrow">The PULSE promise</div><h2>Less tab switching.<br /><em>More signal.</em></h2></div><p>Connect the tools you already use. Keep the context you wish they shared.</p><button class="button button-light" data-scroll="#setup">Start connecting <span>↗</span></button></div>
+      </section>
+    </main>
+    <footer class="footer shell"><span>© 2026 PULSE</span><span>Powered by Switch rooms + shared memory</span><span>Built for the Flip the Switch hackathon</span></footer>
+    <script src="app.js"></script>
+  </body>
+</html>
