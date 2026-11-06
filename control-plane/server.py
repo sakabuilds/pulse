@@ -174,6 +174,19 @@ class Handler(BaseHTTPRequestHandler):
                     if reply["reply_id"] == reply_id:
                         reply["status"] = result["status"]
                         break
+            elif path.startswith("/api/outbox/") and path.endswith("/delivered"):
+                reply_id = path.split("/")[3]
+                publisher = str(payload.get("publisher", "switch"))
+                for reply in state.setdefault("replies", []):
+                    if reply["reply_id"] == reply_id and reply["status"] == "approved":
+                        reply["status"] = "posted"
+                        reply["publisher"] = publisher
+                        break
+                else:
+                    raise ValueError("approved reply not found")
+                with memory_store("private").connect() as db:
+                    db.execute("UPDATE replies SET status = 'posted' WHERE id = ? AND status = 'approved'", (reply_id,))
+                    db.commit()
             elif path == "/api/provision":
                 plan = provisioning_plan(state)
                 if any(item["status"] == "blocked" for item in plan):

@@ -137,6 +137,14 @@ GET  /api/outbox
 Approved replies enter the outbox for a platform publisher to deliver to the
 target room. The publisher is intentionally separate from drafting and approval.
 
+The publisher worker dispatches approved replies to the configured Switch or
+platform callback, then marks them `posted` only after delivery succeeds:
+
+```bash
+PULSE_PUBLISH_URL='https://your-switch-publisher.example/post' \
+./scripts/run-outbox-publisher.sh
+```
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher

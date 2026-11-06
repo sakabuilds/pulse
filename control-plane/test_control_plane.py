@@ -43,6 +43,8 @@ def test_onboarding_guards(tmp_path):
         assert draft_status == 200
         assert request(base, "POST", f"/api/replies/{draft['replies'][-1]['reply_id']}/approve", {"audience": "private"})[0] == 200
         assert len(request(base, "GET", "/api/outbox")[1]["replies"]) == 1
+        assert request(base, "POST", f"/api/outbox/{draft['replies'][-1]['reply_id']}/delivered", {"publisher": "test-publisher"})[0] == 200
+        assert len(request(base, "GET", "/api/outbox")[1]["replies"]) == 0
     finally:
         process.terminate()
         process.wait(timeout=3)
