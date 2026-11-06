@@ -17,7 +17,9 @@ DEFAULT_STATE = {"workspace": {"name": "My Pulse workspace", "created": False}, 
     "community": {"room_type": "shared", "platforms": []},
     "team": {"room_type": "shared", "platforms": []},
     "supervisor": {"room_type": "private", "platforms": []},
-}}
+}, "signals": []}
+VISIBILITY_RANK = {"public": 0, "internal": 1, "private": 2}
+SIGNAL_TYPES = {"bug", "feature", "complaint", "question", "praise", "decision", "blocker", "issue", "pr", "ci"}
 
 
 def load_state():
@@ -56,6 +58,13 @@ def provisioning_plan(state):
             for mode, config in state["assignments"].items() for platform in config["platforms"]]
 
 
+def visible_signals(state, audience):
+    if audience not in VISIBILITY_RANK:
+        raise ValueError(f"invalid audience: {audience}")
+    max_rank = VISIBILITY_RANK[audience]
+    return [signal for signal in state.get("signals", []) if VISIBILITY_RANK[signal["visibility"]] <= max_rank]
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "PulseControl/0.1"
 
@@ -80,6 +89,13 @@ class Handler(BaseHTTPRequestHandler):
         elif path == "/api/provisioning-plan":
             try:
                 self.send_json(200, {"plan": provisioning_plan(load_state())})
+            except ValueError as error:
+                self.send_json(422, {"error": str(error)})
+        elif path == "/api/brief":
+            try:
+                audience = urlparse(self.path).query.removeprefix("audience=") or "private"
+                signals = visible_signals(load_state(), audience)
+                self.send_json(200, {"audience": audience, "signal_count": len(signals), "signals": signals})
             except ValueError as error:
                 self.send_json(422, {"error": str(error)})
         elif path == "/api/health":
@@ -107,6 +123,24 @@ class Handler(BaseHTTPRequestHandler):
                 if any(key in payload for key in ("token", "access_token", "secret")):
                     raise ValueError("raw credentials are not accepted; use the platform OAuth flow")
                 state["connections"][platform] = {"label": payload.get("label", platform.title()), "status": payload.get("status", "pending_oauth")}
+            elif path == "/api/signals":
+                visibility = payload.get("visibility", "public")
+                signal_type = payload.get("type", "issue")
+                if visibility not in VISIBILITY_RANK:
+                    raise ValueError(f"invalid visibility: {visibility}")
+                if signal_type not in SIGNAL_TYPES:
+                    raise ValueError(f"invalid signal type: {signal_type}")
+                summary = str(payload.get("summary", "")).strip()
+                if not summary:
+                    raise ValueError("signal summary is required")
+                state.setdefault("signals", []).append({
+                    "source": str(payload.get("source", "adapter")),
+                    "room": str(payload.get("room", "unknown")),
+                    "visibility": visibility,
+                    "type": signal_type,
+                    "topic_key": str(payload.get("topic_key", "general")),
+                    "summary": summary,
+                })
             elif path == "/api/provision":
                 plan = provisioning_plan(state)
                 if any(item["status"] == "blocked" for item in plan):

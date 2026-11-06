@@ -35,6 +35,10 @@ def test_onboarding_guards(tmp_path):
         assert request(base, "POST", "/api/connections", {"platform": "slack", "token": "must-not-store"})[0] == 422
         bad = {"community": {"room_type": "shared", "platforms": []}, "team": {"room_type": "shared", "platforms": []}, "supervisor": {"room_type": "shared", "platforms": ["telegram"]}}
         assert request(base, "POST", "/api/assignments", bad)[0] == 422
+        assert request(base, "POST", "/api/signals", {"source": "telegram", "room": "supervisor", "visibility": "private", "summary": "Private launch concern"})[0] == 200
+        assert request(base, "POST", "/api/signals", {"source": "discord", "room": "community", "visibility": "public", "summary": "Export feels slow"})[0] == 200
+        assert request(base, "GET", "/api/brief?audience=public")[1]["signal_count"] == 1
+        assert request(base, "GET", "/api/brief?audience=private")[1]["signal_count"] == 2
     finally:
         process.terminate()
         process.wait(timeout=3)
