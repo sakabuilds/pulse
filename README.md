@@ -137,6 +137,12 @@ GET  /api/outbox
 Approved replies enter the outbox for a platform publisher to deliver to the
 target room. The publisher is intentionally separate from drafting and approval.
 
+Run the complete credential-free workflow with:
+
+```bash
+.venv/bin/python scripts/run-demo.py
+```
+
 The publisher worker dispatches approved replies to the configured Switch or
 platform callback, then marks them `posted` only after delivery succeeds:
 
