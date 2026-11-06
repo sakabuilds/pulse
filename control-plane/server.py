@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -20,6 +21,17 @@ DEFAULT_STATE = {"workspace": {"name": "My Pulse workspace", "created": False}, 
 }, "signals": []}
 VISIBILITY_RANK = {"public": 0, "internal": 1, "private": 2}
 SIGNAL_TYPES = {"bug", "feature", "complaint", "question", "praise", "decision", "blocker", "issue", "pr", "ci"}
+MEMORY_DB = Path(os.getenv("PULSE_MEMORY_DB", ROOT / "memory-mcp" / "pulse.sqlite3"))
+
+
+def memory_store(audience="private"):
+    module_path = ROOT / "memory-mcp" / "server.py"
+    spec = importlib.util.spec_from_file_location("pulse_memory_runtime", module_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("could not load Pulse memory runtime")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.MemoryStore(MEMORY_DB, audience)
 
 
 def load_state():
@@ -94,7 +106,7 @@ class Handler(BaseHTTPRequestHandler):
         elif path == "/api/brief":
             try:
                 audience = urlparse(self.path).query.removeprefix("audience=") or "private"
-                signals = visible_signals(load_state(), audience)
+                signals = memory_store(audience).search_signals()
                 self.send_json(200, {"audience": audience, "signal_count": len(signals), "signals": signals})
             except ValueError as error:
                 self.send_json(422, {"error": str(error)})
@@ -133,14 +145,16 @@ class Handler(BaseHTTPRequestHandler):
                 summary = str(payload.get("summary", "")).strip()
                 if not summary:
                     raise ValueError("signal summary is required")
-                state.setdefault("signals", []).append({
+                signal = {
                     "source": str(payload.get("source", "adapter")),
                     "room": str(payload.get("room", "unknown")),
                     "visibility": visibility,
                     "type": signal_type,
                     "topic_key": str(payload.get("topic_key", "general")),
                     "summary": summary,
-                })
+                }
+                state.setdefault("signals", []).append(signal)
+                memory_store("private").record_signal(author="adapter", quote="", severity="", url="", **signal)
             elif path == "/api/provision":
                 plan = provisioning_plan(state)
                 if any(item["status"] == "blocked" for item in plan):

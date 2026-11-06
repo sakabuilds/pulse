@@ -21,7 +21,7 @@ def request(base, method, path, payload=None):
 
 
 def test_onboarding_guards(tmp_path):
-    env = {**os.environ, "PULSE_CONTROL_PORT": "41973", "PULSE_CONTROL_STATE": str(tmp_path / "state.json")}
+    env = {**os.environ, "PULSE_CONTROL_PORT": "41973", "PULSE_CONTROL_STATE": str(tmp_path / "state.json"), "PULSE_MEMORY_DB": str(tmp_path / "memory.sqlite3")}
     process = subprocess.Popen([sys.executable, "control-plane/server.py"], cwd=ROOT, env=env)
     try:
         base = "http://127.0.0.1:41973"

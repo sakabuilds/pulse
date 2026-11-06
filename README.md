@@ -97,6 +97,10 @@ plan endpoints under `/api`. Raw bot tokens are rejected by design; production
 platform adapters will use OAuth/install grants and Switch's encrypted
 connection store.
 
+Signals submitted to `POST /api/signals` are now written into the shared
+`memory-mcp/pulse.sqlite3` store. `GET /api/brief?audience=...` reads from that
+same store, so adapter events and agent queries share one source of truth.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
