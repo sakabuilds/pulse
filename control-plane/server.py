@@ -161,10 +161,13 @@ class Handler(BaseHTTPRequestHandler):
                 topic_key = str(payload.get("topic_key", "")).strip()
                 draft = str(payload.get("draft", "")).strip()
                 target_room = str(payload.get("target_room", "")).strip()
-                if not topic_key or not draft or not target_room:
-                    raise ValueError("topic_key, draft, and target_room are required")
+                agent = str(payload.get("agent", "pulse-supervisor")).strip()
+                if not topic_key or not draft or not target_room or not agent:
+                    raise ValueError("topic_key, draft, target_room, and agent are required")
+                if not agent.startswith("pulse-"):
+                    raise ValueError("agent must be a Pulse agent name")
                 result = memory_store("private").draft_reply(topic_key, draft, target_room)
-                state.setdefault("replies", []).append({"reply_id": result["reply_id"], "topic_key": topic_key, "draft": draft, "target_room": target_room, "status": "pending"})
+                state.setdefault("replies", []).append({"reply_id": result["reply_id"], "topic_key": topic_key, "draft": draft, "target_room": target_room, "agent": agent, "status": "pending"})
             elif path.startswith("/api/replies/") and path.endswith("/approve"):
                 reply_id = path.split("/")[3]
                 if payload.get("audience") != "private":

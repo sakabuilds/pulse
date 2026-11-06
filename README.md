@@ -189,8 +189,14 @@ PULSE_SWITCH_AGENT_TOKEN='agent-api-key' \
 ```
 
 The worker discovers the current IDs each run, so room recreation or a new
-Switch server does not require editing Pulse state. Use one worker per agent
-when several Pulse agents need different Switch API keys.
+Switch server does not require editing Pulse state. For all three Pulse agents,
+use a JSON token map instead of one shared key:
+
+```bash
+PULSE_SWITCH_AGENT_NAME='pulse-supervisor' \
+PULSE_SWITCH_AGENT_TOKENS='{"pulse-community":"community-key","pulse-team":"team-key","pulse-supervisor":"supervisor-key"}' \
+./scripts/run-outbox-publisher.sh
+```
 
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
