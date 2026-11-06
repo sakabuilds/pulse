@@ -177,6 +177,21 @@ publish_to_switch(reply, switch_url=SWITCH_URL, agent_id=AGENT_ID,
 short-lived Gateway session, and keep the agent API key in the worker runtime.
 Pulse does not persist the Gateway password.
 
+To dispatch the approved outbox directly into Switch:
+
+```bash
+PULSE_SWITCH_URL='http://127.0.0.1:44997' \
+PULSE_SWITCH_EMAIL='you@example.com' \
+PULSE_SWITCH_PASSWORD='your-switch-password' \
+PULSE_SWITCH_AGENT_NAME='pulse-community' \
+PULSE_SWITCH_AGENT_TOKEN='agent-api-key' \
+./scripts/run-outbox-publisher.sh
+```
+
+The worker discovers the current IDs each run, so room recreation or a new
+Switch server does not require editing Pulse state. Use one worker per agent
+when several Pulse agents need different Switch API keys.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
