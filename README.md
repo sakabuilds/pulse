@@ -145,6 +145,17 @@ PULSE_PUBLISH_URL='https://your-switch-publisher.example/post' \
 ./scripts/run-outbox-publisher.sh
 ```
 
+Validated agent/platform assignments can be handed to a Switch provisioner:
+
+```bash
+PULSE_SWITCH_PROVISION_URL='https://your-switch-provisioner.example/rooms' \
+./scripts/run-switch-provisioner.sh
+```
+
+Each payload includes the Pulse agent, platform, room type, and deterministic
+room name, so the provisioner can create/adopt the room and invite the existing
+agent without changing Pulse's audience rules.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
