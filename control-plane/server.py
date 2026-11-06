@@ -18,7 +18,7 @@ DEFAULT_STATE = {"workspace": {"name": "My Pulse workspace", "created": False}, 
     "community": {"room_type": "shared", "platforms": []},
     "team": {"room_type": "shared", "platforms": []},
     "supervisor": {"room_type": "private", "platforms": []},
-}, "signals": []}
+}, "signals": [], "replies": []}
 VISIBILITY_RANK = {"public": 0, "internal": 1, "private": 2}
 SIGNAL_TYPES = {"bug", "feature", "complaint", "question", "praise", "decision", "blocker", "issue", "pr", "ci"}
 MEMORY_DB = Path(os.getenv("PULSE_MEMORY_DB", ROOT / "memory-mcp" / "pulse.sqlite3"))
@@ -110,6 +110,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, {"audience": audience, "signal_count": len(signals), "signals": signals})
             except ValueError as error:
                 self.send_json(422, {"error": str(error)})
+        elif path == "/api/outbox":
+            self.send_json(200, {"replies": [reply for reply in load_state().get("replies", []) if reply["status"] == "approved"]})
         elif path == "/api/health":
             self.send_json(200, {"status": "ok"})
         else:
@@ -155,6 +157,23 @@ class Handler(BaseHTTPRequestHandler):
                 }
                 state.setdefault("signals", []).append(signal)
                 memory_store("private").record_signal(author="adapter", quote="", severity="", url="", **signal)
+            elif path == "/api/replies":
+                topic_key = str(payload.get("topic_key", "")).strip()
+                draft = str(payload.get("draft", "")).strip()
+                target_room = str(payload.get("target_room", "")).strip()
+                if not topic_key or not draft or not target_room:
+                    raise ValueError("topic_key, draft, and target_room are required")
+                result = memory_store("private").draft_reply(topic_key, draft, target_room)
+                state.setdefault("replies", []).append({"reply_id": result["reply_id"], "topic_key": topic_key, "draft": draft, "target_room": target_room, "status": "pending"})
+            elif path.startswith("/api/replies/") and path.endswith("/approve"):
+                reply_id = path.split("/")[3]
+                if payload.get("audience") != "private":
+                    raise ValueError("only the private Supervisor audience may approve replies")
+                result = memory_store("private").approve_reply(reply_id)
+                for reply in state.setdefault("replies", []):
+                    if reply["reply_id"] == reply_id:
+                        reply["status"] = result["status"]
+                        break
             elif path == "/api/provision":
                 plan = provisioning_plan(state)
                 if any(item["status"] == "blocked" for item in plan):

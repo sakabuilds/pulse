@@ -126,6 +126,17 @@ Configure Slack's request URL to the deployed worker's `/` endpoint. URL
 verification and signed-request validation are handled before messages enter
 Pulse.
 
+The approval boundary is also exposed by the control plane:
+
+```text
+POST /api/replies
+POST /api/replies/{reply_id}/approve  (requires audience=private)
+GET  /api/outbox
+```
+
+Approved replies enter the outbox for a platform publisher to deliver to the
+target room. The publisher is intentionally separate from drafting and approval.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher

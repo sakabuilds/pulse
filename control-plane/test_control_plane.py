@@ -39,6 +39,10 @@ def test_onboarding_guards(tmp_path):
         assert request(base, "POST", "/api/signals", {"source": "discord", "room": "community", "visibility": "public", "summary": "Export feels slow"})[0] == 200
         assert request(base, "GET", "/api/brief?audience=public")[1]["signal_count"] == 1
         assert request(base, "GET", "/api/brief?audience=private")[1]["signal_count"] == 2
+        draft_status, draft = request(base, "POST", "/api/replies", {"topic_key": "export-slow", "draft": "We are investigating this now.", "target_room": "community"})
+        assert draft_status == 200
+        assert request(base, "POST", f"/api/replies/{draft['replies'][-1]['reply_id']}/approve", {"audience": "private"})[0] == 200
+        assert len(request(base, "GET", "/api/outbox")[1]["replies"]) == 1
     finally:
         process.terminate()
         process.wait(timeout=3)
