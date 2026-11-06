@@ -113,6 +113,19 @@ PULSE_TELEGRAM_ROOM=community \
 The worker never prints the token. Run separate workers for separate audience
 rooms; for example, the Supervisor worker uses `PULSE_TELEGRAM_VISIBILITY=private`.
 
+Slack Events API callbacks are accepted by the companion webhook worker:
+
+```bash
+SLACK_SIGNING_SECRET='secret-from-slack' \
+PULSE_SLACK_VISIBILITY=internal \
+PULSE_SLACK_ROOM=team \
+./scripts/run-slack-webhook.sh
+```
+
+Configure Slack's request URL to the deployed worker's `/` endpoint. URL
+verification and signed-request validation are handled before messages enter
+Pulse.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
