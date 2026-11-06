@@ -162,6 +162,16 @@ Each payload includes the Pulse agent, platform, room type, and deterministic
 room name, so the provisioner can create/adopt the room and invite the existing
 agent without changing Pulse's audience rules.
 
+For a live Switch server, approved replies can use the documented agent message
+endpoint (`POST /agents/{agent_id}/message`) through the native publisher:
+
+```python
+from adapters.switch_http_publisher import publish_to_switch
+
+publish_to_switch(reply, switch_url=SWITCH_URL, agent_id=AGENT_ID,
+                  room_id=ROOM_ID, bearer_token=SWITCH_BEARER_TOKEN)
+```
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
