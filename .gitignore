@@ -4,3 +4,4 @@ __pycache__/
 *.sqlite3
 .env
 .pytest_cache/
+control-plane/state.json
