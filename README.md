@@ -172,6 +172,11 @@ publish_to_switch(reply, switch_url=SWITCH_URL, agent_id=AGENT_ID,
                   room_id=ROOM_ID, bearer_token=SWITCH_BEARER_TOKEN)
 ```
 
+`adapters/switch_gateway.py` can resolve the live agent and room IDs first. Set
+`PULSE_SWITCH_URL`, `PULSE_SWITCH_EMAIL`, and `PULSE_SWITCH_PASSWORD` for its
+short-lived Gateway session, and keep the agent API key in the worker runtime.
+Pulse does not persist the Gateway password.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
