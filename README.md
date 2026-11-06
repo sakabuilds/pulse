@@ -101,6 +101,18 @@ Signals submitted to `POST /api/signals` are now written into the shared
 `memory-mcp/pulse.sqlite3` store. `GET /api/brief?audience=...` reads from that
 same store, so adapter events and agent queries share one source of truth.
 
+The first adapter worker is ready for Telegram long polling:
+
+```bash
+PULSE_TELEGRAM_BOT_TOKEN='token-from-secret-store' \
+PULSE_TELEGRAM_VISIBILITY=public \
+PULSE_TELEGRAM_ROOM=community \
+./scripts/run-telegram-worker.sh
+```
+
+The worker never prints the token. Run separate workers for separate audience
+rooms; for example, the Supervisor worker uses `PULSE_TELEGRAM_VISIBILITY=private`.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
