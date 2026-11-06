@@ -85,6 +85,18 @@ creates or adopts one room per identity/platform pair and invites the existing
 Pulse identity into it. This keeps Telegram, Slack, Discord, and Mattermost as
 different entry points into the same audience-scoped memory.
 
+The first local onboarding control plane is available with:
+
+```bash
+./scripts/run-control-plane.sh
+```
+
+It serves the landing page at `http://127.0.0.1:4173` and exposes credential-free
+workspace, connection metadata, assignment validation, health, and provisioning
+plan endpoints under `/api`. Raw bot tokens are rejected by design; production
+platform adapters will use OAuth/install grants and Switch's encrypted
+connection store.
+
 For the current Codex-backed local agents, Switch gives each session its own
 `CODEX_HOME`. Run `scripts/configure-switch-mcp.sh` after provisioning the
 agents; it registers the same launcher in each session config. The launcher
